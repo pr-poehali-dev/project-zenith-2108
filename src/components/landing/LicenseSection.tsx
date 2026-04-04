@@ -1,71 +1,68 @@
 import { useState, useRef, useEffect } from "react";
-import { Check, X, Crown, Zap, Star, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import Icon from "@/components/ui/icon";
 
-interface LicenseOption {
+interface TopicCard {
   name: string;
-  price: string;
-  icon: React.ReactNode;
+  level: string;
+  icon: string;
   features: string[];
-  notIncluded?: string[];
-  bulkDeal?: string;
-  popular?: boolean;
+  highlight?: boolean;
+  tag?: string;
 }
 
-const licenseOptions: LicenseOption[] = [
+const topicCards: TopicCard[] = [
   {
-    name: "Стандартная лицензия",
-    price: "299 руб",
-    icon: <Star className="w-6 h-6" />,
+    name: "Центральный банк",
+    level: "Фундамент",
+    icon: "Landmark",
     features: [
-      "Использование для записи музыки",
-      "Распространение до 5 000 копий",
-      "75 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Коммерческие выступления",
-      "Радиотрансляция (2 станции)",
+      "Роль регулятора экономики",
+      "Эмиссия денег",
+      "Ключевая ставка и её влияние",
+      "Надзор за банками",
+      "Резервные требования",
+      "Валютная политика",
     ],
-    bulkDeal: "КУПИ 1 ТРЕК — ПОЛУЧИ 1 В ПОДАРОК!",
+    tag: "С этого начинают",
   },
   {
-    name: "Продвинутая лицензия",
-    price: "499 руб",
-    icon: <Zap className="w-6 h-6" />,
+    name: "Коммерческие банки",
+    level: "Основа",
+    icon: "Building2",
     features: [
-      "Использование для записи музыки",
-      "Распространение до 10 000 копий",
-      "150 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Коммерческие выступления",
-      "Радиотрансляция (без ограничений)",
+      "Как банк зарабатывает деньги",
+      "Депозиты и вклады",
+      "Кредитование населения",
+      "Межбанковский рынок",
+      "Банковская маржа",
+      "Виды банковских лицензий",
     ],
-    popular: true,
+    highlight: true,
   },
   {
-    name: "Премиум лицензия",
-    price: "799 руб",
-    icon: <Crown className="w-6 h-6" />,
+    name: "Деньги и расчёты",
+    level: "Механика",
+    icon: "Banknote",
     features: [
-      "Использование для записи музыки",
-      "Распространение до 20 000 копий",
-      "500 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Только некоммерческие выступления",
+      "Как работает денежная масса",
+      "Безналичные расчёты",
+      "Платёжные системы",
+      "SWIFT и корреспондентские счета",
     ],
-    notIncluded: ["Без прав на радиотрансляцию"],
   },
   {
-    name: "Коммерческая лицензия",
-    price: "899 руб",
-    icon: <Globe className="w-6 h-6" />,
+    name: "Риски и защита",
+    level: "Безопасность",
+    icon: "ShieldCheck",
     features: [
-      "Использование для записи музыки",
-      "Неограниченное распространение",
-      "Неограниченные онлайн-прослушивания",
-      "Неограниченное количество клипов",
-      "Коммерческие выступления",
-      "Радиотрансляция (без ограничений)",
+      "Страхование вкладов",
+      "Банковские риски",
+      "Базель и нормативы капитала",
+      "Что происходит при банкротстве банка",
+      "Как выбрать надёжный банк",
+      "АСВ и его роль",
     ],
   },
 ];
@@ -102,17 +99,16 @@ const LicenseSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">Выбери свою лицензию</h2>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">Ключевые темы</h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Подбери идеальную лицензию под свои потребности и начни создавать потрясающую музыку уже
-            сегодня
+            Разберём банковскую систему по блокам — от роли государства до защиты ваших денег
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {licenseOptions.map((option, index) => (
+          {topicCards.map((card, index) => (
             <div
-              key={option.name}
+              key={card.name}
               className={`transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
               }`}
@@ -129,10 +125,10 @@ const LicenseSection = () => {
                   <div className="absolute inset-0 rounded-lg bg-black"></div>
                 </div>
 
-                {option.popular && (
+                {card.tag && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
                     <span className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold animate-pulse">
-                      Популярный
+                      {card.tag}
                     </span>
                   </div>
                 )}
@@ -140,45 +136,22 @@ const LicenseSection = () => {
                 <CardContent className="relative p-6 rounded-lg h-full flex flex-col">
                   <div className="text-center mb-6">
                     <div className="inline-flex p-3 rounded-full bg-zinc-900 border border-white/10 mb-4">
-                      {option.icon}
+                      <Icon name={card.icon} size={24} fallback="BookOpen" className="text-white" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2 text-white">{option.name}</h3>
-                    <div className="text-3xl font-bold text-white">{option.price}</div>
+                    <h3 className="text-xl font-bold mb-2 text-white">{card.name}</h3>
+                    <div className="text-sm font-medium text-zinc-400">{card.level}</div>
                   </div>
 
                   <div className="flex-grow">
                     <ul className="space-y-3 mb-6">
-                      {option.features.map((feature, i) => (
+                      {card.features.map((feature, i) => (
                         <li key={i} className="flex items-start">
                           <Check className="h-5 w-5 text-white mr-2 shrink-0 mt-0.5" />
                           <span className="text-sm text-zinc-300">{feature}</span>
                         </li>
                       ))}
-                      {option.notIncluded?.map((feature, i) => (
-                        <li key={i} className="flex items-start text-zinc-500">
-                          <X className="h-5 w-5 text-zinc-500 mr-2 shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
                     </ul>
                   </div>
-
-                  {option.bulkDeal && (
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-white bg-white/5 py-2 px-3 rounded-lg border border-white/10 animate-pulse">
-                        {option.bulkDeal}
-                      </p>
-                    </div>
-                  )}
-
-                  <Button
-                    className="w-full bg-white text-black hover:bg-zinc-200 transition-colors"
-                    asChild
-                  >
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                      Выбрать
-                    </a>
-                  </Button>
                 </CardContent>
               </Card>
             </div>
