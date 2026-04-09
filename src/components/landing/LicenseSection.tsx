@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useNavigate } from "react-router-dom";
 
 interface TopicCard {
   name: string;
@@ -10,6 +12,7 @@ interface TopicCard {
   features: string[];
   highlight?: boolean;
   tag?: string;
+  route: string;
 }
 
 const topicCards: TopicCard[] = [
@@ -17,6 +20,7 @@ const topicCards: TopicCard[] = [
     name: "Центральный банк",
     level: "Фундамент",
     icon: "Landmark",
+    route: "/central-bank",
     features: [
       "Роль регулятора экономики",
       "Эмиссия денег",
@@ -31,6 +35,7 @@ const topicCards: TopicCard[] = [
     name: "Коммерческие банки",
     level: "Основа",
     icon: "Building2",
+    route: "/commercial-banks",
     features: [
       "Как банк зарабатывает деньги",
       "Депозиты и вклады",
@@ -45,6 +50,7 @@ const topicCards: TopicCard[] = [
     name: "Деньги и расчёты",
     level: "Механика",
     icon: "Banknote",
+    route: "/money",
     features: [
       "Как работает денежная масса",
       "Безналичные расчёты",
@@ -56,6 +62,7 @@ const topicCards: TopicCard[] = [
     name: "Риски и защита",
     level: "Безопасность",
     icon: "ShieldCheck",
+    route: "/risks",
     features: [
       "Страхование вкладов",
       "Банковские риски",
@@ -68,6 +75,7 @@ const topicCards: TopicCard[] = [
 ];
 
 const LicenseSection = () => {
+  const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
@@ -152,6 +160,13 @@ const LicenseSection = () => {
                       ))}
                     </ul>
                   </div>
+
+                  <Button
+                    className="w-full bg-white text-black hover:bg-zinc-200 transition-colors"
+                    onClick={() => navigate(card.route)}
+                  >
+                    Читать статью →
+                  </Button>
                 </CardContent>
               </Card>
             </div>
